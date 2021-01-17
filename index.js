@@ -37465,16 +37465,16 @@ var createLanguage = function (linguistData, override) {
 var ast = createCommonjsModule(function (module) {
   /*
     Copyright (C) 2013 Yusuke Suzuki <utatane.tea@gmail.com>
-  
+
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
-  
+
       * Redistributions of source code must retain the above copyright
         notice, this list of conditions and the following disclaimer.
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-  
+
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS'
     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
     IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -37629,16 +37629,16 @@ var code = createCommonjsModule(function (module) {
   /*
     Copyright (C) 2013-2014 Yusuke Suzuki <utatane.tea@gmail.com>
     Copyright (C) 2014 Ivan Nikulin <ifaaan@gmail.com>
-  
+
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
-  
+
       * Redistributions of source code must retain the above copyright
         notice, this list of conditions and the following disclaimer.
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-  
+
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
     IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -37756,16 +37756,16 @@ var code = createCommonjsModule(function (module) {
 var keyword$1 = createCommonjsModule(function (module) {
   /*
     Copyright (C) 2013 Yusuke Suzuki <utatane.tea@gmail.com>
-  
+
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
-  
+
       * Redistributions of source code must retain the above copyright
         notice, this list of conditions and the following disclaimer.
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-  
+
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
     IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -37947,16 +37947,16 @@ var keyword$1 = createCommonjsModule(function (module) {
 var utils$5 = createCommonjsModule(function (module, exports) {
   /*
     Copyright (C) 2013 Yusuke Suzuki <utatane.tea@gmail.com>
-  
+
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are met:
-  
+
       * Redistributions of source code must retain the above copyright
         notice, this list of conditions and the following disclaimer.
       * Redistributions in binary form must reproduce the above copyright
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
-  
+
     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
     IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40326,7 +40326,7 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs) {
     throw new Error("Couldn't insert all the expressions");
   }
 
-  return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
+  return concat$7(["`", newDoc, "`"]);
 } // Search all the placeholders in the quasisDoc tree
 // and replace them with the expression docs one by one
 // returns a new doc with all the placeholders replaced,
