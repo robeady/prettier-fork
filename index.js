@@ -40298,6 +40298,8 @@ const {
 function format$2(path, print, textToDoc) {
   const node = path.getValue(); // Get full template literal with expressions replaced by placeholders
 
+  const originalTextMayContainNewlines = detectIfOriginalTextMayContainNewlines(node)
+
   const rawQuasis = node.quasis.map(q => q.value.raw);
   let placeholderID = 0;
   const text = rawQuasis.reduce((prevVal, currVal, idx) => {
@@ -40309,10 +40311,10 @@ function format$2(path, print, textToDoc) {
     stripTrailingHardline: true
   });
   const expressionDocs = printTemplateExpressions$1(path, print);
-  return transformCssDoc(doc, node, expressionDocs);
+  return transformCssDoc(doc, node, expressionDocs, originalTextMayContainNewlines);
 }
 
-function transformCssDoc(quasisDoc, parentNode, expressionDocs) {
+function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextMayContainNewlines) {
   const isEmpty = parentNode.quasis.length === 1 && !parentNode.quasis[0].value.raw.trim();
 
   if (isEmpty) {
@@ -40326,8 +40328,45 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs) {
     throw new Error("Couldn't insert all the expressions");
   }
 
-  return concat$7(["`", newDoc, "`"]);
-} // Search all the placeholders in the quasisDoc tree
+  if (originalTextMayContainNewlines || cssDocMayContainNewlines(newDoc)) {
+    return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
+  } else {
+    return concat$7(["`", newDoc, "`"]);
+  }
+}
+
+function detectIfOriginalTextMayContainNewlines(node) {
+  if (typeof node !== "object") return true
+  const quasis = node.quasis
+  if (!Array.isArray(quasis)) return true
+  for (const q of quasis) {
+    const raw = typeof q.value === "object" ? q.value.raw : undefined
+    if (typeof raw !== "string") return true
+    if (raw.includes("\n")) return true
+  }
+  return false
+}
+
+function cssDocMayContainNewlines(doc) {
+  if (typeof doc === "object") {
+    if (doc.type === "concat") {
+      return !Array.isArray(doc.parts) || doc.parts.some(cssMayContainNewlines)
+    } else if (doc.type === "line") {
+      return true
+    } else {
+      // unrecognised type of thing
+      return true
+    }
+  } else if (typeof doc === "string") {
+    return doc.includes("\n")
+  } else {
+    // unrecongnised type of thing
+    return true
+  }
+
+}
+
+// Search all the placeholders in the quasisDoc tree
 // and replace them with the expression docs one by one
 // returns a new doc with all the placeholders replaced,
 // or null if it couldn't replace any expression
