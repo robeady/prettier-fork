@@ -40298,23 +40298,24 @@ const {
 function format$2(path, print, textToDoc) {
   const node = path.getValue(); // Get full template literal with expressions replaced by placeholders
 
-  const originalTextMayContainNewlines = detectIfOriginalTextMayContainNewlines(node)
-
   const rawQuasis = node.quasis.map(q => q.value.raw);
   let placeholderID = 0;
   const text = rawQuasis.reduce((prevVal, currVal, idx) => {
     return idx === 0 ? currVal : prevVal + "@prettier-placeholder-" + placeholderID++ + "-id" + currVal;
   }, "");
+
+  const originalTextHasNewlines = text.includes("\n")
+
   const doc = textToDoc(text, {
     parser: "scss"
   }, {
     stripTrailingHardline: true
   });
   const expressionDocs = printTemplateExpressions$1(path, print);
-  return transformCssDoc(doc, node, expressionDocs, originalTextMayContainNewlines);
+  return transformCssDoc(doc, node, expressionDocs, originalTextHasNewlines);
 }
 
-function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextMayContainNewlines) {
+function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextHasNewlines) {
   const isEmpty = parentNode.quasis.length === 1 && !parentNode.quasis[0].value.raw.trim();
 
   if (isEmpty) {
@@ -40328,22 +40329,11 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextMayC
     throw new Error("Couldn't insert all the expressions");
   }
 
-  if (!originalTextMayContainNewlines) {
+  if (originalTextHasNewlines) {
+    return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
+  } else {
     return concat$7(["`", removeCssNewlines(newDoc), "`"]);
   }
-  return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
-}
-
-function detectIfOriginalTextMayContainNewlines(node) {
-  if (typeof node !== "object") return true
-  const quasis = node.quasis
-  if (!Array.isArray(quasis)) return true
-  for (const q of quasis) {
-    const raw = typeof q.value === "object" ? q.value.raw : undefined
-    if (typeof raw !== "string") return true
-    if (raw.includes("\n")) return true
-  }
-  return false
 }
 
 function removeCssNewlines(doc) {
