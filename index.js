@@ -40328,11 +40328,10 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextMayC
     throw new Error("Couldn't insert all the expressions");
   }
 
-  if (originalTextMayContainNewlines || cssDocMayContainNewlines(newDoc)) {
-    return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
-  } else {
-    return concat$7(["`", newDoc, "`"]);
+  if (!originalTextMayContainNewlines) {
+    return concat$7(["`", removeCssNewlines(newDoc), "`"]);
   }
+  return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
 }
 
 function detectIfOriginalTextMayContainNewlines(node) {
@@ -40347,23 +40346,8 @@ function detectIfOriginalTextMayContainNewlines(node) {
   return false
 }
 
-function cssDocMayContainNewlines(doc) {
-  if (typeof doc === "object") {
-    if (doc.type === "concat") {
-      return !Array.isArray(doc.parts) || doc.parts.some(cssMayContainNewlines)
-    } else if (doc.type === "line") {
-      return true
-    } else {
-      // unrecognised type of thing
-      return true
-    }
-  } else if (typeof doc === "string") {
-    return doc.includes("\n")
-  } else {
-    // unrecongnised type of thing
-    return true
-  }
-
+function removeCssNewlines(doc) {
+  return mapDoc(doc, d => d.type === "line" ? " " : d)
 }
 
 // Search all the placeholders in the quasisDoc tree
