@@ -1,3 +1,25 @@
+# Prettier fork
+
+## Changes
+
+This fork of prettier has the following changes
+- CSS embedded in javascript/typescript files is not forced onto multiple lines.
+
+## Instructions
+
+To save the hassle of building prettier, we modify the already bundled code rather than the original source. The following instructions describe how the embedded CSS change is carried out.
+1. obtain the released prettier code, e.g. from an npm/yarn install of prettier
+1. find the original code that should be changed in the [prettier repo](https://github.com/prettier/prettier/). In this case we are interested in `transformCssDoc` in src/language-js/embed/css.js 
+1. locate this code in the bundled version of prettier (likely in index.js)
+1. modify it
+1. amend the package.json version number by suffixing -fork{version}
+1. push the changes to github
+1. install the forked prettier directly from github through npm/yarn
+
+TODO: it may be worth pulling the modified code out into a separate js file and `require()`ing it to make rebasing easier in future...
+
+# Original prettier readme
+
 ![Prettier Banner](https://raw.githubusercontent.com/prettier/prettier-logo/master/images/prettier-banner-light.png)
 
 <h2 align="center">Opinionated Code Formatter</h2>
