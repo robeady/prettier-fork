@@ -40337,7 +40337,7 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextHasN
 }
 
 function removeCssNewlines(doc) {
-  return mapDoc(doc, d => d.type === "line" ? " " : d)
+  return mapDoc(doc, d => d.type === "line" ? " " : d.type === "break-parent" ? "" : d)
 }
 
 // Search all the placeholders in the quasisDoc tree
