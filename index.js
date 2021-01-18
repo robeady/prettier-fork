@@ -40329,14 +40329,10 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextHasN
     throw new Error("Couldn't insert all the expressions");
   }
 
-  if (originalTextHasNewlines) {
-    return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
-  } else {
-    return concat(["`", indent(concat([softline, removeCssNewlines(newDoc)])), softline, "`"]);
-  }
+  return concat(["`", indent(concat([originalTextHasNewlines ? hardline : softline, softenCssNewlines(newDoc)])), softline, "`"]);
 }
 
-function removeCssNewlines(doc) {
+function softenCssNewlines(doc) {
   return mapDoc(doc, d => d.type === "line" && d.hard ? line : d.type === "break-parent" ? "" : d)
 }
 
