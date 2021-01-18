@@ -1,6 +1,6 @@
 {
   "name": "prettier",
-  "version": "2.2.1-fork-7",
+  "version": "2.2.1-fork-8",
   "description": "Prettier is an opinionated code formatter",
   "bin": "./bin-prettier.js",
   "repository": "robeady/prettier-fork",
