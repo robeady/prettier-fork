@@ -40322,7 +40322,7 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextHasN
     return "``";
   }
 
-  const newDoc = replacePlaceholders(replaceTrailingSemicolon(softenCssNewlines(quasisDoc)), expressionDocs);
+  const newDoc = replacePlaceholders(softenCssNewlines(quasisDoc), expressionDocs);
   /* istanbul ignore if */
 
   if (!newDoc) {
@@ -40330,27 +40330,6 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextHasN
   }
 
   return concat(["`", indent(concat([originalTextHasNewlines ? hardline : softline, newDoc])), softline, "`"]);
-}
-
-function replaceTrailingSemicolon(doc) {
-  let numStrings = 0
-  let lastString = ""
-  mapDoc(doc, d => {
-    if (typeof d === "string" && d !== "") {
-      ++numStrings
-      lastString = d
-    }
-    return d
-  })
-  if (lastString !== ";") {
-    return doc
-  }
-  return mapDoc(doc, d => {
-    if (typeof d === "string" && d !== "" && --numStrings === 0) {
-      return ifBreak(";", "")
-    }
-    return d
-  })
 }
 
 function softenCssNewlines(doc) {
