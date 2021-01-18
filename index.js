@@ -40322,14 +40322,14 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextHasN
     return "``";
   }
 
-  const newDoc = replacePlaceholders(quasisDoc, expressionDocs);
+  const newDoc = replacePlaceholders(softenCssNewlines(quasisDoc), expressionDocs);
   /* istanbul ignore if */
 
   if (!newDoc) {
     throw new Error("Couldn't insert all the expressions");
   }
 
-  return concat(["`", indent(concat([originalTextHasNewlines ? hardline : softline, softenCssNewlines(newDoc)])), softline, "`"]);
+  return concat(["`", indent(concat([originalTextHasNewlines ? hardline : softline, newDoc])), softline, "`"]);
 }
 
 function softenCssNewlines(doc) {
