@@ -40332,12 +40332,12 @@ function transformCssDoc(quasisDoc, parentNode, expressionDocs, originalTextHasN
   if (originalTextHasNewlines) {
     return concat$7(["`", indent$4(concat$7([hardline$4, newDoc])), softline$3, "`"]);
   } else {
-    return concat$7(["`", removeCssNewlines(newDoc), "`"]);
+    return concat(["`", indent(concat([softline, removeCssNewlines(newDoc)])), softline, "`"]);
   }
 }
 
 function removeCssNewlines(doc) {
-  return mapDoc(doc, d => d.type === "line" ? " " : d.type === "break-parent" ? "" : d)
+  return mapDoc(doc, d => d.type === "line" && d.hard ? line : d.type === "break-parent" ? "" : d)
 }
 
 // Search all the placeholders in the quasisDoc tree
